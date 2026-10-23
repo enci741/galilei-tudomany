@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hogyan „működik” a tudomány? – Galilei interaktív műhely</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f7f5f1;color:#273047;font:16px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif}button{font:inherit;cursor:pointer}a{color:#7e3856}#workshop{max-width:1120px;margin:0 auto;padding:18px 18px 60px}#workshop .mast{border-radius:22px;background:linear-gradient(120deg,#362f45,#73465b);color:white;padding:28px 30px}#workshop .mast small{letter-spacing:.12em;text-transform:uppercase;color:#efcfdd}#workshop h1{font:700 clamp(28px,4vw,44px)/1.18 Georgia,serif;margin:8px 0}#workshop .mast p{max-width:740px;margin:8px 0;color:#f6eaf0}#workshop .nav{display:flex;flex-wrap:wrap;gap:8px;margin:17px 0 22px}#workshop .nav button,#workshop .back{border:1px solid #d6cbd2;border-radius:12px;padding:10px 16px;background:white;color:#66384f;font-weight:650}#workshop .nav button[aria-current="page"]{background:#783d59;color:white;border-color:#783d59}#workshop h2{font:700 29px/1.25 Georgia,serif;margin:0 0 10px}#workshop .lede{color:#5d6372;max-width:850px;margin:0 0 22px}#workshop .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}#workshop .panel{border:1px solid #e3dce0;background:white;border-radius:17px;padding:20px}#workshop .panel h3{font:700 23px Georgia,serif;margin:8px 0}#workshop .panel p{color:#5e6270;margin:6px 0 15px}#workshop .action{border:0;border-radius:10px;background:#7c3d59;color:white;padding:10px 15px;font-weight:650}#workshop .map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}#workshop .zone{border-radius:16px;padding:19px;border:1px solid rgba(0,0,0,.06)}#workshop .zone h3{margin:0 0 8px;font:700 23px Georgia,serif}#workshop .zone p{margin:0 0 14px;font-size:14px}#workshop .zone button{border:1px solid #aab0ba;background:#fff;border-radius:9px;padding:9px 11px;text-align:left;color:#303342}#workshop .chips{display:flex;flex-wrap:wrap;gap:8px}#workshop .pink{background:#f8dfe7}#workshop .green{background:#e4f2dc}#workshop .purple{background:#eee2f4}#workshop .blue{background:#dfedf2}#workshop .stories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}#workshop .story{background:white;border:1px solid #e3dce0;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px}#workshop .story strong{font:700 21px Georgia,serif}#workshop .story p{margin:0;flex:1;color:#626875;font-size:14px}#workshop .story button{align-self:start}#workshop .flag{display:inline-block;color:#654052;background:#f6e8ee;border-radius:50px;padding:3px 10px;font-size:12px;font-weight:700}#workshop .detail{background:white;border:1px solid #e3dce0;border-radius:16px;padding:22px}#workshop .detail .muted{color:#626875}#workshop .detail .connections{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}#workshop .detail .connections button{background:#f5eaf0;color:#733c58;border:1px solid #e7cbd9;border-radius:30px;padding:7px 12px}#workshop .notice{border-left:4px solid #b9899e;padding:12px 15px;background:#fbf4f7;border-radius:8px;margin-top:15px}#workshop .source{border-top:1px solid #ddd;margin-top:25px;padding-top:15px;color:#626875;font-size:13px}#workshop .breadcrumb{font-size:14px;margin:0 0 15px;color:#6b6470}#workshop [hidden]{display:none!important}@media(max-width:720px){#workshop .two,#workshop .map{grid-template-columns:1fr}#workshop .stories{grid-template-columns:1fr}#workshop .mast{padding:22px}#workshop{padding:10px 10px 45px}}
+
+#workshop .flow-intro{background:#fff;border:1px solid #e4dfe5;border-radius:13px;padding:13px 17px;margin:0 0 18px;font-size:15px}
+#workshop .flow-shell{position:relative;background:radial-gradient(circle at center,#f7f5f8 0,#fff 75%);border:1px solid #e3dce0;border-radius:22px;padding:22px;overflow:hidden}
+#workshop .flow-map{position:relative;z-index:2;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:94px;row-gap:94px}
+#workshop .flow-zone{min-height:272px;padding:20px 21px;box-shadow:0 5px 16px #2630470b;display:flex;flex-direction:column}
+#workshop .flow-zone-head{display:flex;gap:10px;align-items:flex-start}
+#workshop .flow-zone-head h3{font-size:clamp(18px,2vw,23px);line-height:1.22}
+#workshop .flow-num{font-size:12px;font-weight:800;background:#ffffff9c;padding:5px 7px;border-radius:7px;letter-spacing:.05em}
+#workshop .flow-zone .chips{margin-top:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#workshop .flow-zone .chips button{font-size:13px;line-height:1.3;padding:10px 9px;min-height:45px;border:1px solid #ffffffab;background:#ffffffdc;transition:transform .16s,box-shadow .16s}
+#workshop .flow-zone .chips button:hover{transform:translateY(-2px);box-shadow:0 3px 10px #2b253021}
+#workshop .flow-zone .chips button:focus-visible{outline:3px solid #3c536b;outline-offset:2px}
+#workshop .flow-links{position:absolute;inset:22px;width:calc(100% - 44px);height:calc(100% - 44px);z-index:1;pointer-events:none}
+#workshop .flow-links path{fill:none;stroke:#858593;stroke-width:3;stroke-linecap:round;marker-end:url(#flow-arrow)}
+#workshop .flow-links .flow-cross{stroke:#a7a0ac;stroke-width:2;stroke-dasharray:8 8}
+#workshop .flow-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;background:#fff;border:1px solid #dcd7e0;box-shadow:0 6px 22px #35313a14;border-radius:50%;width:148px;height:148px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px;pointer-events:none}
+#workshop .flow-center span{font-size:21px;color:#815a75}
+#workshop .flow-center strong{font:700 16px/1.2 Georgia,serif}
+#workshop .flow-center small{font-size:10px;color:#666877;margin-top:6px}
+#workshop .flow-caption{font-size:13px;color:#626875;margin:12px 2px}
+@media(max-width:850px){#workshop .flow-map{column-gap:60px;row-gap:65px}#workshop .flow-zone{min-height:290px}#workshop .flow-center{width:116px;height:116px}#workshop .flow-center strong{font-size:13px}#workshop .flow-center small{font-size:9px}}
+@media(max-width:650px){#workshop .flow-shell{padding:13px}#workshop .flow-map{grid-template-columns:1fr;gap:42px}#workshop .flow-zone{min-height:auto}#workshop .flow-center{display:none}#workshop .flow-links{display:none}#workshop .flow-zone .chips{grid-template-columns:repeat(2,minmax(0,1fr))}#workshop .flow-zone:not(:last-child):after{content:'↕';position:absolute;left:50%;margin-top:calc(100% + 4px);display:none}}
+
+/* Berkeley-inspired organic process-map composition; original text and artwork not copied. */
+#workshop .flow-shell{background:#fffaf6;padding:28px;border-radius:24px}
+#workshop .flow-map{grid-template-columns:repeat(2,minmax(0,1fr));gap:92px 110px;align-items:stretch}
+#workshop .flow-zone{border-radius:42% 39% 41% 37% / 16% 19% 17% 19%;padding:31px 35px;min-height:330px;position:relative;box-shadow:inset 0 0 0 2px #ffffff7a,0 8px 24px #3333330d}
+#workshop .flow-zone:nth-child(2){border-radius:39% 43% 38% 42% / 20% 16% 20% 18%}
+#workshop .flow-zone:nth-child(3){border-radius:42% 37% 43% 39% / 17% 20% 17% 21%}
+#workshop .flow-zone:nth-child(4){border-radius:38% 42% 39% 43% / 20% 18% 21% 17%}
+#workshop .flow-zone-head{align-items:center}
+#workshop .flow-zone-head h3{font-size:clamp(18px,1.8vw,23px)}
+#workshop .flow-zone .chips{gap:7px}
+#workshop .flow-zone .chips button{border-radius:18px;background:#fffdf8eb}
+#workshop .flow-center{width:186px;height:186px;border:6px solid #fff;box-shadow:0 0 0 2px #b6a9b8,0 10px 25px #33333320;background:#faf8f0}
+#workshop .flow-center strong{font-size:19px}
+#workshop .flow-links{inset:28px;width:calc(100% - 56px);height:calc(100% - 56px)}
+#workshop .flow-links path{stroke-width:4}
+#workshop .flow-links .flow-cross{stroke-width:3;stroke-dasharray:10 9}
+@media(max-width:850px){#workshop .flow-map{gap:80px 75px}#workshop .flow-zone{padding:23px 20px;min-height:350px}#workshop .flow-center{width:136px;height:136px}#workshop .flow-center strong{font-size:14px}}
+@media(max-width:650px){#workshop .flow-map{grid-template-columns:1fr;gap:24px}#workshop .flow-zone{min-height:auto;border-radius:35px!important;padding:22px}#workshop .flow-center,#workshop .flow-links{display:none}}
+
+#workshop .berkeley-figure{background:#fff;border:1px solid #e3e0e5;border-radius:18px;padding:12px 20px 20px}
+#workshop .berkeley-diagram{width:100%;max-width:740px;display:block;margin:0 auto}
+#workshop .berkeley-diagram .bc-outer{fill:none;stroke:#9c9c9c;stroke-width:5;marker-end:url(#bc-arrow)}
+#workshop .berkeley-diagram .bc-inner{fill:none;stroke:#aaa;stroke-width:3.5;marker-end:url(#bc-arrow-small)}
+#workshop .bc-node{cursor:pointer;outline:none}
+#workshop .bc-node text{font:700 17px/1.2 Arial,sans-serif;text-anchor:middle;fill:#38383d;pointer-events:none}
+#workshop .bc-node .bc-big{font-size:21px}
+#workshop .bc-node circle{transition:filter .15s,stroke-width .15s}
+#workshop .bc-node:hover circle,#workshop .bc-node.selected circle{filter:drop-shadow(0 3px 6px #5b566350);stroke-width:7}
+#workshop .bc-node:focus-visible circle{stroke:#172f53;stroke-width:8}
+#workshop .bc-help{text-align:center;font-size:14px;color:#545966;margin:0 auto 18px;max-width:680px}
+#workshop .bc-detail[hidden]{display:none}
+#workshop .bc-detail{border:1px solid #e0dce5;background:#f9f8fb;border-radius:14px;padding:18px 20px;max-width:750px;margin:0 auto}
+#workshop .bc-detail h3{margin:0 0 7px}
+#workshop .bc-detail p{margin:6px 0 13px}
+#workshop .bc-topic-buttons{display:flex;gap:9px;flex-wrap:wrap}
+#workshop .bc-topic-buttons button{background:white;border:1px solid #c7c5d2;border-radius:9px;padding:10px 13px;cursor:pointer;font:inherit}
+#workshop .bc-topic-buttons button:hover{background:#ece9f4}
+@media(max-width:520px){#workshop .berkeley-figure{padding:8px}#workshop .bc-node text{font-size:17px}#workshop .bc-detail{padding:12px}}
+
+/* Részletes körnézet: a fő ábrától külön, csak kattintás után */
+#workshop .zone-circle-wrap{max-width:790px;margin:0 auto;text-align:center}
+#workshop .zone-detail-svg{width:100%;height:auto;display:block;max-height:780px}
+#workshop .zone-detail-svg .zone-item{cursor:pointer;outline:none}
+#workshop .zone-detail-svg .zone-item rect{stroke:#ffffffb8;stroke-width:2;transition:stroke-width .15s,filter .15s}
+#workshop .zone-detail-svg .zone-item:hover rect,#workshop .zone-detail-svg .zone-item:focus-visible rect{stroke:#355e2e;stroke-width:4;filter:drop-shadow(0 2px 3px #0002)}
+#workshop .zone-detail-svg .zone-item text{pointer-events:none;font-family:Arial,sans-serif;font-size:15px;fill:#244423;text-anchor:middle}
+#workshop .zone-detail-svg .zone-label{font-family:Arial,sans-serif;fill:#183d16;text-anchor:middle;font-weight:700}
+#workshop .zone-detail-svg .zone-arrow{fill:none;stroke:#235625;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+#workshop .zone-circle-note{font-size:14px;color:#60646c;margin:5px auto 20px;max-width:640px}
+#workshop .zone-circle-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+#workshop .zone-circle-actions button{border:1px solid #a6b99e;background:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}
+#workshop .external-topic{cursor:pointer}#workshop .external-topic:focus-visible rect{stroke:#713b48;stroke-width:2;fill:#ffffff55}</style><style>
+#gj-app{--ink:#243044;--pink:#9b4867;--light:#f9eef2;--line:#e4d8df;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink);max-width:850px;margin:0 auto;line-height:1.55}
+#gj-app *{box-sizing:border-box}#gj-app .shell{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 7px 24px #34203413}#gj-app header{padding:26px;background:linear-gradient(130deg,#6f3456,#a45474);color:white}#gj-app h2{font-size:clamp(23px,4vw,31px);margin:0 0 5px}#gj-app header p{margin:0;color:#fbeef4}#gj-app .body{padding:22px}#gj-app .progress{display:flex;gap:7px;margin-bottom:18px}#gj-app .progress span{height:7px;flex:1;background:#eee4e8;border-radius:12px}#gj-app .progress span.active{background:#a45474}#gj-app .eyebrow{font-weight:700;color:var(--pink);font-size:13px;letter-spacing:.03em}#gj-app h3{font-size:22px;margin:4px 0 12px}#gj-app p{margin:10px 0}#gj-app .sky{background:#101a30;border-radius:14px;padding:14px;color:#fff;margin:15px 0}#gj-app .sky svg{display:block;width:100%;height:auto;max-height:200px}#gj-app .sky small{display:block;text-align:center;color:#ccd8e8;font-size:12px;margin-top:6px}#gj-app .question{background:var(--light);border-left:4px solid var(--pink);border-radius:8px;padding:14px;margin-top:14px}#gj-app label{display:block;font-weight:650;margin:12px 0 6px}#gj-app button{font:inherit;border-radius:9px;padding:10px 16px;cursor:pointer;border:1px solid var(--pink);background:var(--pink);color:white;font-weight:650}#gj-app button.secondary{background:#fff;color:var(--pink)}#gj-app button:disabled{opacity:.45;cursor:not-allowed}#gj-app button:focus-visible,#gj-app input:focus-visible{outline:3px solid #eab1c6;outline-offset:2px}#gj-app .actions{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:18px;flex-wrap:wrap}#gj-app .answer{border:1px solid #d8c5cf;background:#fcf7f9;padding:14px;border-radius:11px;margin-top:12px}#gj-app .hidden{display:none}#gj-app .tags{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0}#gj-app .tag{background:#f5dce6;color:#79334e;border-radius:30px;padding:5px 10px;font-size:13px;font-weight:600}#gj-app .footer{padding:15px 22px;border-top:1px solid var(--line);background:#faf8f9;font-size:12px;color:#526071}#gj-app a{color:#7d3154}#gj-app .count{font-size:13px;color:#6e6270}#gj-app .reveal-row{display:flex;justify-content:flex-start;margin-top:12px}@media(max-width:520px){#gj-app .body{padding:15px}#gj-app header{padding:20px}#gj-app button{padding:10px 12px}}
+#gj-app .subq{margin:8px 0;padding-left:19px}#gj-app .subq li{margin:7px 0}
+#gj-app .tf{display:grid;gap:10px;margin-top:12px}#gj-app .tfrow{border:1px solid #e1d6dc;border-radius:10px;padding:12px;background:#fff}
+#gj-app .tfrow p{margin:0 0 9px}#gj-app .choices{display:flex;gap:9px;flex-wrap:wrap}
+#gj-app .choices button{padding:6px 14px;font-size:14px;background:#fff;color:#78344f}
+#gj-app .choices button.selected{background:#873c5c;color:#fff}
+#gj-app .feedback{font-size:14px;margin-top:8px;color:#3b4c5a}
+#gj-app .curiosity{margin-top:13px;padding:15px;border:1px solid #d7c6a7;background:#fff9eb;border-radius:12px}#gj-app .curiosity h4{margin:0 0 7px;font-size:17px;color:#70425b}#gj-app .curiosity p{margin:7px 0}#gj-app .curiosity .refs{font-size:12px;line-height:1.6}#gj-app .observations{margin:15px 0;background:#f7f1e6;padding:14px;border-radius:14px;border:1px solid #dfd1ba}
+#gj-app .obgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#gj-app .obcard{background:#fffaf0;border:1px solid #d9c9ad;border-radius:10px;padding:9px;text-align:center}
+#gj-app .obcard .date{font-size:13px;font-weight:700;color:#714452;margin-bottom:4px}
+#gj-app .obcard svg{display:block;width:100%;height:auto}
+#gj-app .observations figcaption{font-size:12px;color:#62594d;margin-top:9px;line-height:1.5}
+#gj-app .observations .source{font-size:11px;color:#62594d}
+@media(min-width:700px){#gj-app .obgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+</style></head><body><div id="workshop"><header class="mast"><small>Galileiről mindenkinek · Interaktív tanulási műhely</small><h1>Hogyan „működik” a tudomány?</h1><p>Fedezd fel a tudományos kutatás különböző útjait Galilei történetein keresztül!</p></header><nav class="nav" aria-label="Fő navigáció"><button data-page="home">Kezdőlap</button><button data-page="methods">A tudomány útjai</button><button data-page="stories">Galilei történetei</button><button data-page="sources">Források és tanároknak</button></nav>
+<section id="view-home" class="view"><div class="panel" style="margin-bottom:22px"><h2>Hogyan ismerhetjük meg a tudomány működését?</h2><p>A Kaliforniai Egyetem Berkeley kampuszának <strong>Understanding Science</strong> (A tudomány megértése) című oktatási honlapja közérthetően mutatja be, hogyan dolgoznak a kutatók, hogyan vizsgálják elképzeléseiket, és miként alakítják a tudományt a viták, az új eredmények és a gyakorlati alkalmazások.</p><p>A honlap egyik legfontosabb üzenete, hogy a tudományos kutatás <strong>nem merev, egymást követő lépések sora</strong>: sokféle kiindulópontja és egymáshoz kapcsolódó útja lehet. Az itt található interaktív műhely ezt a szemléletet Galilei tudománytörténeti példáin keresztül teszi felfedezhetővé.</p><p><a href="https://undsci.berkeley.edu/" target="_blank" rel="noopener noreferrer">Az Understanding Science eredeti honlapja ↗</a> · <a href="https://undsci.berkeley.edu/understanding-science-101/how-science-works/" target="_blank" rel="noopener noreferrer">Hogyan működik a tudomány? – az eredeti folyamatábra ↗</a></p></div><h2>Válassz egy felfedezőutat!</h2><p class="lede">A két út összekapcsolódik: egy tudományos tevékenységhez több történet, egy történethez több kutatási módszer is tartozhat.</p><div class="two"><article class="panel"><span class="flag">1. út</span><h3>🔎 A tudomány útjai</h3><p>A tudományos kutatás négy összekapcsolódó területét fedezheted fel egy interaktív folyamatábrán.</p><button class="action" data-page="methods">A folyamatábrához →</button></article><article class="panel"><span class="flag">2. út</span><h3>🔭 Galilei történetei</h3><p>Válassz egy felfedezést vagy tudományos vitát, és derítsd ki, milyen kutatási módszerek kapcsolódnak hozzá.</p><button class="action" data-page="stories">A történetekhez →</button></article></div><div class="notice"><strong>Fontos:</strong> a tudományos kutatás nem kötelező lépésekből álló egyenes folyamat. A megfigyelések, a kísérletek, a tudományos közösség és az alkalmazások sokféleképpen kapcsolódhatnak egymáshoz.</div></section>
+<section id="view-methods" class="view" hidden><h2>A tudomány útjai</h2><p class="lede">Fedezd fel a tudományos kutatás négy összekapcsolódó területét! Kattints arra, amelyik érdekel.</p><div class="flow-intro"><strong>Hogyan olvasd az ábrát?</strong> Kattints egy színes körre, és megnyílnak a hozzá tartozó kutatói tevékenységek. A nyilak azt mutatják, hogy a tudományban az egyes tevékenységek egymásra hatnak, és vissza is vezethetnek korábbi kérdésekhez.</div>
+<div class="berkeley-figure">
+<svg class="berkeley-diagram" viewBox="0 0 800 800" role="img" aria-label="A tudomány működése. Középen az ötletek tesztelése, körülötte 12 óránál a felfedezés és kutatás, 4 óránál a közösségi elemzés és visszajelzés, 8 óránál az előnyök és eredmények. A középső és a külső körök között kétirányú nyilak, a három külső kör között koncentrikus köríven futó nyilak láthatók.">
+<defs>
+<marker id="bc-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#898b90"/></marker>
+<marker id="bc-arrow-small" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#85888e"/></marker>
+<radialGradient id="bc-yellow"><stop offset="0" stop-color="#fffdf2"/><stop offset="1" stop-color="#fff0ac"/></radialGradient>
+<radialGradient id="bc-green"><stop offset="0" stop-color="#ecffd8"/><stop offset="1" stop-color="#a5e58b"/></radialGradient>
+<radialGradient id="bc-pink"><stop offset="0" stop-color="#fff1f2"/><stop offset="1" stop-color="#f2a7af"/></radialGradient>
+<radialGradient id="bc-blue"><stop offset="0" stop-color="#f1fdff"/><stop offset="1" stop-color="#a7dce9"/></radialGradient>
+<radialGradient id="bc-purple"><stop offset="0" stop-color="#fff0ff"/><stop offset="1" stop-color="#dfb0e5"/></radialGradient>
+</defs>
+<circle cx="400" cy="400" r="380" fill="url(#bc-yellow)" stroke="#f1d56e" stroke-width="2"/>
+<!-- Három azonos sugarú, a sárga háttérrel koncentrikus külső körív -->
+<path class="bc-outer" d="M507.39 104.94 A314 314 0 0 1 709.23 454.53" />
+<path class="bc-outer" d="M601.84 640.54 A314 314 0 0 1 198.16 640.54" />
+<path class="bc-outer" d="M90.77 454.53 A314 314 0 0 1 292.61 104.94" />
+<!-- Kétirányú kapcsolatok a központ és a három külső terület között -->
+<path class="bc-inner" d="M389.0 247.0 L389.0 215.0" /><path class="bc-inner" d="M411.0 215.0 L411.0 247.0" /><path class="bc-inner" d="M538.0 467.0 L565.7 483.0" /><path class="bc-inner" d="M554.7 502.0 L527.0 486.0" /><path class="bc-inner" d="M273.0 486.0 L245.3 502.0" /><path class="bc-inner" d="M234.3 483.0 L262.0 467.0" />
+<g class="bc-node" tabindex="0" role="button" data-zone="1" aria-label="Ötletek tesztelése"><circle cx="400" cy="400" r="140" fill="url(#bc-green)" stroke="#427a37" stroke-width="4"/><text x="400" y="394" class="bc-big">ÖTLETEK</text><text x="400" y="423" class="bc-big">TESZTELÉSE</text></g>
+<g class="bc-node" tabindex="0" role="button" data-zone="0" aria-label="Felfedezés és kutatás"><circle cx="400" cy="125" r="78" fill="url(#bc-pink)" stroke="#a64b56" stroke-width="3"/><text x="400" y="117">FELFEDEZÉS</text><text x="400" y="139">ÉS KUTATÁS</text></g>
+<g class="bc-node" tabindex="0" role="button" data-zone="3" aria-label="Előnyök és eredmények"><circle cx="161.84" cy="537.5" r="78" fill="url(#bc-blue)" stroke="#3f8698" stroke-width="3"/><text x="161.84" y="530">ELŐNYÖK ÉS</text><text x="161.84" y="552">EREDMÉNYEK</text></g>
+<g class="bc-node" tabindex="0" role="button" data-zone="2" aria-label="Közösségi elemzés és visszajelzés"><circle cx="638.16" cy="537.5" r="78" fill="url(#bc-purple)" stroke="#895596" stroke-width="3"/><text x="638.16" y="516">KÖZÖSSÉGI</text><text x="638.16" y="538">ELEMZÉS ÉS</text><text x="638.16" y="560">VISSZAJELZÉS</text></g>
+</svg>
+
+
+</div>
+<p class="flow-caption">Az ábra a University of California, Berkeley <em>Understanding Science</em> folyamatábrájának elrendezését követő, magyar nyelvű interaktív átdolgozás. <a href="https://undsci.berkeley.edu/understanding-science-101/how-science-works/" target="_blank" rel="noopener noreferrer">Eredeti forrás ↗</a></p></section>
+<section id="view-zone" class="view" hidden><button class="back" id="zone-back" type="button">← Vissza a folyamatábrához</button><div id="zone-content"></div></section>
+<section id="view-stories" class="view" hidden><h2>Galilei történetei</h2><p class="lede">A Jupiter holdjainak története már teljes interaktív feladatként működik. A többi történet helyét előkészítettük a későbbi fejlesztéshez.</p><div class="stories" id="story-grid"></div></section>
+<section id="view-detail" class="view" hidden><button class="back" id="detail-back" type="button">← Vissza</button><p class="breadcrumb" id="detail-crumb"></p><div id="detail-content"></div></section>
+<section id="view-jupiter" class="view" hidden><button class="back" id="jupiter-back" type="button">← Vissza a történetekhez</button><p class="breadcrumb">Galilei történetei / A Jupiter holdjai</p>
+<div id="gj-app"><div class="shell">
+<header><h2>Mit látott Galilei?</h2><p>Nyomozás a Jupiter körül – megfigyelés, kérdés, következtetés</p></header>
+<main class="body" aria-live="polite">
+<div class="progress" id="gj-progress" aria-label="Előrehaladás"></div>
+<div class="eyebrow" id="gj-label"></div><h3 id="gj-title"></h3>
+<p id="gj-intro"></p>
+<figure class="observations" id="gj-figure" aria-label="Galilei négy korai Jupiter-megfigyelésének ábrái">
+<div class="obgrid" id="gj-obgrid"></div>
+<figcaption>Galilei <em>Sidereus Nuncius</em> (1610) című művében közölt, 1610. január 7., 8., 10. és 11-i megfigyeléseinek <strong>sematikus újrarajzolása</strong>. A pontok száma és a Jupiterhez viszonyított oldaluk a történeti leírást követi; a távolságok nem méretarányosak. Január 9-én felhős volt az ég.</figcaption>
+</figure>
+<div class="question"><strong id="gj-question"></strong><div id="gj-extra"></div><div id="gj-truefalse"></div></div>
+<div class="reveal-row"><button id="gj-reveal" class="secondary" type="button" aria-expanded="false">Történeti magyarázat megjelenítése</button></div>
+<div id="gj-answer" class="answer hidden"></div>
+<section id="gj-curiosity" class="curiosity hidden" aria-label="Érdekesség a keringési időkről">
+<h4>Érdekesség – Galilei még nem tudta a keringési időket!</h4>
+<p>Galilei 1610 elején már felismerte, hogy a négy égitest a Jupiter körül kering, de a <em>Sidereus Nuncius</em> megjelenésekor még nem tudta kiszámítani a pontos keringési időket. Erre maga is felhívta az olvasók figyelmét.</p>
+<p><strong>Miért volt ez nehéz?</strong> A távcsőben a holdak csupán apró fényes pontoknak látszottak. Egymáshoz közel kerülhettek, eltűnhettek a Jupiter mögött vagy a fényében, és a négy holdat egyik éjszakáról a másikra nehéz volt biztosan azonosítani. Ráadásul különböző sebességgel keringenek, és a Földről csak a pályájuk vetületét látjuk.</p>
+<p><strong>És mit tudunk ma?</strong> Andrea Longhin és munkatársai 2025-ben a <em>Sidereus Nuncius</em> 64 fennmaradt megfigyelési ábráját modern égboltszimulációval és matematikai illesztéssel elemezték. Megmutatták, hogy ezekből az adatokból a négy hold keringési ideje utólag meghatározható, igen jó statisztikai pontossággal. Ez nem jelenti azt, hogy Galilei korában is könnyű lett volna elvégezni a számítást.</p>
+<p class="refs"><strong>Források:</strong> Galilei, G. (1610). <em>Sidereus Nuncius</em>. Velence: Tommaso Baglioni. <a href="https://sidereusnuncius.org/" target="_blank" rel="noopener noreferrer">Digitalizált szöveg</a>.<br>Longhin, A. és mtsai. (2025). <em>A quantitative analysis of Galilei's observations of Jupiter satellites from the Sidereus Nuncius</em>. <a href="https://arxiv.org/abs/2503.12543" target="_blank" rel="noopener noreferrer">arXiv:2503.12543</a>.</p>
+</section>
+<div id="gj-tags" class="tags"></div>
+<div class="actions"><button id="gj-prev" class="secondary" type="button">← Vissza</button><span id="gj-count" class="count"></span><button id="gj-next" type="button">Tovább →</button></div>
+</main>
+<footer class="footer"><strong>Forrás és módszertani megjegyzés.</strong> Az ábrák a <em>Sidereus Nuncius</em> (1610) 1610. január 7., 8., 10. és 11-i leírásai alapján készült, nem méretarányos, beépített SVG-újrarajzolások. Nem az eredeti kézirat reprodukciói. A keringési idők 1610 márciusában még nem voltak pontosan meghatározva. A történet alapja Galilei <em>Sidereus Nuncius</em> (1610) című műve. A tudományos folyamatokhoz: <a href="https://undsci.berkeley.edu/understanding-science-101/how-science-works/" target="_blank" rel="noopener noreferrer">Berkeley Understanding Science</a>. Történeti kiegészítés: <a href="https://www2.museogalileo.it/it/biblioteca-e-istituto-di-ricerca/progetti/incontra-galileo/31-opere/454-sidereus-nuncius-1610.html" target="_blank" rel="noopener noreferrer">Museo Galileo</a>. A modul nem állítja, hogy a Jupiter holdjai önmagukban bizonyították a heliocentrikus világképet.</footer>
+</div></div>
+</section>
+<section id="view-sources" class="view" hidden><h2>Források és tanári háttér</h2><div class="panel"><h3>Tudományos és történeti források</h3><p>University of California Museum of Paleontology: <a href="https://undsci.berkeley.edu/understanding-science-101/how-science-works/" target="_blank" rel="noopener">Understanding Science – How Science Works</a>.</p><p>Galilei, G. (1610): <em>Sidereus Nuncius</em>. Velence: Tommaso Baglioni.</p><p>Longhin, A. és munkatársai (2025): <a href="https://arxiv.org/abs/2503.12543" target="_blank" rel="noopener">A quantitative analysis of Galilei's observations of Jupiter satellites from the Sidereus Nuncius</a> (kézirat).</p><p>Galilei, G. (1606): <em>Le operazioni del compasso geometrico et militare</em>. Padova.</p><p>Galilei, G. (1613): <em>Istoria e dimostrazioni intorno alle macchie solari</em>. Róma: Giacomo Mascardi.</p><p>Galilei, G. (1632): <em>Dialogo sopra i due massimi sistemi del mondo</em>. Firenze: Giovanni Battista Landini.</p><p>Kepler, J. (1596): <em>Mysterium Cosmographicum</em>. Tübingen.</p><p>Fleming, A. (1929): ‘On the antibacterial action of cultures of a Penicillium, with special reference to their use in the isolation of B. influenzae’, <em>British Journal of Experimental Pathology</em>, 10(3), pp. 226–236. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2048009/" target="_blank" rel="noopener">Eredeti közlemény</a>.</p><p>University of California Museum of Paleontology: <a href="https://undsci.berkeley.edu/understanding-science-101/how-science-works/" target="_blank" rel="noopener">Understanding Science – How Science Works</a>.</p><h3>Pedagógiai cél</h3><p>A tanulók különítsék el a megfigyelést a magyarázattól, mérlegeljék a bizonyítékok erejét, és ismerjék fel a tudományos kutatás nem lineáris jellegét.</p><p class="source">Fejlesztési megjegyzés: a további történetek tudománytörténeti szövegei és a tanári feladatlapok még nem készültek el. A jelenlegi keret a későbbi bővítéshez készült.</p></div></section>
+</div><script>
+(function(){'use strict';
+const stories=[
+{id:'jupiter',title:'Egy új eszköz új világot nyit',desc:'Galilei távcsöve és a Jupiter holdjainak felfedezése.',ready:true,topics:['technology','observation','questions','newknowledge']},
+{id:'motion',title:'Hogyan esnek a testek?',desc:'Gyorsuló mozgás, lejtőkísérletek és matematikai modellek.',topics:['experiment','models','evidence']},
+{id:'sunspots',title:'Foltok a tökéletes Napon?',desc:'Galilei és Scheiner tudományos vitája.',topics:['observation','criticism','publication']},
+{id:'compass',title:'Tudomány a mindennapok szolgálatában',desc:'A geometriai és katonai körző alkalmazásai.',topics:['problems','applications']},
+{id:'worlds',title:'Kinek van igaza?',desc:'Világképek, érvek és a bizonyítékok korlátai.',topics:['models','criticism','evidence']},
+{id:'community',title:'Egy tudós sem dolgozik egyedül',desc:'Levelezés, tudományos kapcsolatok és eredmények megosztása.',topics:['publication','collaboration']}
+];
+const zones=[
+{name:'Felfedezés és kutatás',css:'pink',intro:'Megfigyelések, kérdések, inspirációk és a korábbi tudás megismerése.',topics:[['observation','Megfigyelések végzése'],['questions','Kérdések megfogalmazása'],['sharing','Adatok és ötletek megosztása'],['inspiration','Inspiráció gyűjtése'],['literature','A szakirodalom megismerése'],['technology','Új technológiák'],['problems','Gyakorlati problémák'],['curiosity','Kíváncsiság'],['motivation','Személyes motiváció'],['luck','Szerencse'],['surprise','Meglepő megfigyelés']]},
+{name:'Ötletek tesztelése',css:'green',intro:'Hipotézisek, kísérletek, mérések és modellek.',topics:[['experiment','Kísérletek'],['evidence','Bizonyítékok'],['models','Modellek és értelmezések']]},
+{name:'Közösségi elemzés és visszajelzés',css:'purple',intro:'A tudományos eredmények közösségi vizsgálata és továbbfejlesztése.',topics:[['review','Visszajelzés és szakmai lektorálás'],['replication','Megismétlés'],['discussion','Megvitatás a kollégákkal'],['publication','Publikáció'],['newquestions','Új kérdések, ötletek felvetése'],['theory','Elméleti ismeretek építése']]},
+{name:'Előnyök és eredmények',css:'blue',intro:'A tudományos tudás különféle hasznosulási formái.',topics:[['development','Technológia fejlesztése'],['social','Társadalmi problémák megoldása'],['knowledge','Tudásépítés'],['policy','A politikai döntéshozók informálása'],['satisfaction','A kíváncsiság kielégítése'],['everyday','Mindennapi problémák megoldása']]}
+];
+const shortExamples={
+observation:['A tudományos megfigyelés tudatos, rendszeres adatgyűjtés. Galilei 1609 végétől a Hold megvilágított és árnyékos részeinek változásait vizsgálta; az árnyékok alapján egyenetlen, hegyekkel és mélyedésekkel tagolt felszínre következtetett.','Galilei (1610), Sidereus Nuncius.','Miért hasznos ugyanazt az égitestet különböző időpontokban megfigyelni?'],
+questions:['A tudományos kérdés további megfigyeléssel vagy méréssel vizsgálható. Galilei a Jupiter közelében észlelt fényes pontok helyzetváltozását követve vizsgálta, hogy azok valóban állócsillagok-e.','Galilei (1610), Sidereus Nuncius.','Milyen megfigyelések segítenek megkülönböztetni egy állócsillagot egy keringő égitesttől?'],
+sharing:['A megfigyelések és értelmezések közreadása lehetővé teszi mások számára az ellenőrzést és a továbbgondolást. Galilei 1610 márciusában a Sidereus Nuncius című műben közölte távcsöves megfigyeléseit.','Galilei (1610), Sidereus Nuncius.','Miért fontos a megfigyelési adatok bemutatása is, nem csupán a következtetés?'],
+inspiration:['Egy új kutatási ötlet mások találmányaiból is születhet. Galilei nem a távcső feltalálója volt: a Hollandiából érkező hírek nyomán saját eszközöket készített és tökéletesített, majd az égbolt vizsgálatára alkalmazta őket.','Museo Galileo: Telescope; Galilei (1610), Sidereus Nuncius.','Hogyan válhat egy ismert eszköz új alkalmazása tudományos újítássá?'],
+literature:['A kutatók a korábbi elképzeléseket is megismerik és kritikusan értékelik. Galilei ismerte az arisztotelészi természetfilozófiát és Kopernikusz elméletét; az 1632-es Párbeszédben e világképek érveit ütköztette. Ez a példa elsősorban az elméletek kritikus összevetését szemlélteti.','Galilei (1632), Dialogo sopra i due massimi sistemi del mondo.','Miért fontos egy kutatás során az eltérő elméletek megismerése?'],
+technology:['Az új eszközök addig nem hozzáférhető jelenségeket tehetnek megfigyelhetővé. A távcső 1609-es csillagászati alkalmazása Galilei számára új vizsgálati lehetőségeket nyitott.','Galilei (1610), Sidereus Nuncius.','Miben különbözik az eszköz feltalálása és tudományos célú alkalmazása?'],
+problems:['Gyakorlati feladatok is ösztönözhetik a tudományos és műszaki munkát. Galilei geometriai és katonai körzője különféle számításokhoz és mérési feladatokhoz nyújtott segítséget.','Galilei (1606), Le operazioni del compasso geometrico et militare.','Milyen gyakorlati problémákhoz lehetett hasznos egy ilyen számolóeszköz?'],
+curiosity:['A természet megértésének igénye önmagában is kutatásra ösztönözhet.','University of California Museum of Paleontology: Understanding Science – How Science Works.'],
+motivation:['Johannes Keplert személyes filozófiai és vallási meggyőződése is arra ösztönözte, hogy a világegyetem matematikai rendjét keresse. Az 1596-os Mysterium Cosmographicumban a bolygópályák távolságait szabályos testekkel próbálta értelmezni. Ez a modell nem bizonyult helyesnek, de kutatásainak fontos kiindulópontja volt.','Kepler (1596), Mysterium Cosmographicum; Stanford Encyclopedia of Philosophy: Johannes Kepler.','Lehet-e hasznos kutatási kiindulópont egy elképzelés akkor is, ha később tévesnek bizonyul?'],
+luck:['1928-ban Alexander Fleming egyik baktériumtenyészetét véletlenül penészgomba szennyezte be. Fleming észrevette a penész környezetében a baktériumok növekedésének gátlását, majd tovább vizsgálta a jelenséget. A véletlen esemény jelentőségének felismeréséhez és ellenőrzéséhez tudományos munka kellett.','Fleming (1929), British Journal of Experimental Pathology, 10(3), 226–236.','Mi történt volna, ha Fleming vizsgálat nélkül kidobja a szennyezett tenyészetet?'],
+surprise:['A távcsöves megfigyelések a Napon változó sötét foltokat mutattak. Galilei a napfoltokat a Nap felszínén vagy közvetlen közelében elhelyezkedő jelenségként értelmezte, ami kihívást jelentett az égi világ változatlanságának hagyományos elképzelésével szemben. A foltok értelmezéséről Christoph Scheinerrel is vitázott; Galilei nem a napfoltok első felfedezője volt.','Galilei (1613), Istoria e dimostrazioni intorno alle macchie solari.','Hogyan lehetne megfigyelésekkel megkülönböztetni a Naphoz tartozó foltokat az előtte elhaladó testektől?'],
+review:['A tudományos állítások közösségi vizsgálata fontos: Galilei távcsöves eredményeit kortársai vitatták és ellenőrizték.','Galilei távcsöves megfigyeléseinek történeti kontextusa.'],replication:['A Jupiter holdjainak észlelése nem egyetlen megfigyelésre épült: Galilei többször visszatért ugyanahhoz az égi objektumhoz.','Sidereus Nuncius (1610).'],discussion:['Galilei több tudóssal levelezett és vitázott a napfoltokról és azok értelmezéséről.','Istoria e dimostrazioni intorno alle macchie solari (1613).'],publication:['A Sidereus Nuncius (1610) könyvben Galilei szélesebb tudományos közönség elé tárta felfedezéseit.','Sidereus Nuncius (1610).'],newquestions:['A Jupiter holdjainak felismerése új kérdést vetett fel: valóban minden égitest a Föld körül kering?','Sidereus Nuncius (1610).'],theory:['A Jupiter holdjai fontos ellenpéldát jelentettek a minden égitest földközéppontú keringését állító elképzeléshez, de önmagukban nem bizonyították a heliocentrikus modellt.','Sidereus Nuncius (1610).'],development:['Galilei a geometriai és katonai körzőt gyakorlati számítások elvégzésére fejlesztette és tanította.','Le operazioni del compasso geometrico et militare (1606).'],social:['A tudományos eredmények társadalmi alkalmazása nem mindig azonnali; Galilei mechanikai vizsgálatai későbbi műszaki gondolkodásra is hatottak.','Discorsi (1638).'],knowledge:['A Jupiter holdjainak felfedezése bővítette az égitestek mozgásáról alkotott ismereteket.','Sidereus Nuncius (1610).'],policy:['Ez a Berkeley-ábra általános tudományos tevékenysége. Galilei életéből ehhez egyelőre nem kapcsolunk ellenőrizetlen, konkrét példát.','Understanding Science, UC Berkeley.'],satisfaction:['A távcsöves megfigyelések révén korábban megválaszolhatatlan kérdések váltak vizsgálhatóvá.','Sidereus Nuncius (1610).'],everyday:['Galilei geometriai és katonai körzője gyakorlati számításokat egyszerűsített.','Le operazioni del compasso geometrico et militare (1606).']
+};
+const $=id=>document.getElementById(id);let lastPage='stories';
+function node(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e}
+function page(name){document.querySelectorAll('#workshop .view').forEach(v=>v.hidden=v.id!=='view-'+name);document.querySelectorAll('#workshop .nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.page===name?'page':'false'));if(['methods','stories'].includes(name))lastPage=name;document.getElementById('workshop').scrollIntoView({behavior:'smooth',block:'start'});}
+function topic(id){const found=zones.flatMap(z=>z.topics.map(t=>({id:t[0],label:t[1],zone:z.name}))).find(t=>t.id===id);if(!found)return;
+$('detail-crumb').textContent=found.zone+' / '+found.label;const out=$('detail-content');out.replaceChildren();const wrap=node('article','detail');wrap.appendChild(node('h2','',found.label));const ex=shortExamples[id];
+if(ex){wrap.appendChild(node('p','',ex[0]));if(ex[2])wrap.appendChild(node('p','', 'Gondolkodtató kérdés: '+ex[2]));wrap.appendChild(node('p','muted','Történeti forrás / tájékozódási pont: '+ex[1]));wrap.appendChild(node('p','muted','Ez rövid magyarázó példa; a további forrásellenőrzés és részletes kidolgozás még hátravan.'));}
+else {wrap.appendChild(node('p','muted','Ehhez a módszertani elemhez később részletesebb feldolgozóanyag vagy Galilei-feladat kapcsolódik.'));}
+const relevant=stories.filter(s=>s.topics.includes(id));if(relevant.length){const connections=node('div','connections');relevant.forEach(s=>{const b=node('button','',s.title+(s.ready?' →':' · előkészítés alatt'));b.addEventListener('click',()=>story(s.id));connections.appendChild(b)});wrap.appendChild(connections)}
+out.appendChild(wrap);page('detail')}
+function story(id){const s=stories.find(x=>x.id===id);if(!s)return;if(s.ready){page('jupiter');return}const out=$('detail-content');out.replaceChildren();$('detail-crumb').textContent='Galilei történetei / '+s.title;const wrap=node('article','detail');wrap.appendChild(node('h2','',s.title));wrap.appendChild(node('p','muted',s.desc));wrap.appendChild(node('div','notice','Ez a történet még előkészítés alatt áll. A keretrendszerben már helye van, de nem jelenítünk meg hozzá félkész tudományos tartalmat.'));const tags=node('div','connections');s.topics.forEach(id=>{const match=zones.flatMap(z=>z.topics).find(t=>t[0]===id);if(match){const b=node('button','',match[1]);b.addEventListener('click',()=>topic(id));tags.appendChild(b)}});wrap.appendChild(tags);out.appendChild(wrap);page('detail')}
+function showCircle(i){
+ const z=zones[i], d=$('zone-content');d.replaceChildren();
+ const panel=node('div','zone-circle-wrap');
+ const h=node('h2','',z.name);panel.appendChild(h);
+ const ns='http://www.w3.org/2000/svg';
+ const svg=document.createElementNS(ns,'svg');svg.setAttribute('class','zone-detail-svg');svg.setAttribute('viewBox',i===0?'0 0 900 760':'0 0 700 700');svg.setAttribute('role','img');svg.setAttribute('aria-label',z.name+' részletes folyamatábrája. A belső feliratok kattinthatók.');
+ const create=(tag,attrs,parent=svg)=>{const e=document.createElementNS(ns,tag);Object.entries(attrs||{}).forEach(([k,v])=>e.setAttribute(k,v));parent.appendChild(e);return e};
+ const text=(parent,x,y,lines,cls)=>{const t=create('text',{x,y,class:cls||''},parent);lines.forEach((line,j)=>{const span=create('tspan',{x,dy:j?'1.15em':0},t);span.textContent=line});return t};
+ const palette=[['#f8d2d7','#f0a2aa','#8e444d'],['#e7ffdc','#a5da8c','#376f31'],['#f8e5fa','#d8a5e5','#81518b'],['#e1f8fa','#a5dce5','#467f87']][i];
+ create('circle',i===0?{cx:450,cy:385,r:280,fill:palette[0],stroke:'#272727','stroke-width':5}:{cx:350,cy:350,r:326,fill:palette[0],stroke:palette[2],'stroke-width':5});
+ function item(x,y,w,h,lines,topicId,fill){const g=create('g',{class:'zone-item',tabindex:0,role:'button','aria-label':lines.join(' ')});create('rect',{x,y,width:w,height:h,rx:Math.min(24,h/2),fill:fill||palette[1]},g);const fontSize=lines.length>2?12.5:14;const ty=y+h/2-(lines.length-1)*fontSize*.56;const t=text(g,x+w/2,ty,lines);t.setAttribute('font-size',fontSize);const run=()=>topic(topicId);g.addEventListener('click',run);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run()}});return g;}
+ // Halvány belső kapcsolatok: a mezők alatt, hogy a szövegek jól olvashatók maradjanak.
+ const link=(d,color,width=13)=>create('path',{d,fill:'none',stroke:color,'stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round',opacity:'.62','pointer-events':'none'});
+ const arrow=(d,color,width=4)=>create('path',{d,fill:'none',stroke:color,'stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round',opacity:'.8','pointer-events':'none'});
+ if(i===1){
+  // Az eredeti magyar ábra szerkezete: felső adatgyűjtés és alsó, sugaras adatértelmezés.
+  // Két zöld árnyalat, vízszintes választóvonal, négy következtetési mező.
+  create('path',{d:'M28 305 H672',stroke:'#264b25','stroke-width':5});
+  text(svg,350,115,['Adatgyűjtés'],'zone-label').setAttribute('font-size',30);
+  create('path',{d:'M92 142 H608',stroke:'#ffffff','stroke-width':8,'stroke-linecap':'round'});
+  item(76,163,170,62,['Hipotézisek'],'models','#a8d88e');
+  item(265,163,170,62,['Várható eredmények','megfigyelése'],'experiment','#a8d88e');
+  item(454,163,170,62,['Tényleges eredmények','megfigyelése'],'evidence','#a8d88e');
+  // A forrásábra a felső és alsó szakasz közti visszacsatolást is jelzi.
+  create('path',{d:'M205 293 L205 249 M193 261 L205 247 L217 261',class:'zone-arrow'});
+  create('path',{d:'M495 248 L495 292 M483 280 L495 294 L507 280',class:'zone-arrow'});
+  text(svg,350,348,['Adatok értelmezése'],'zone-label').setAttribute('font-size',30);
+  item(173,372,354,62,['Alátámasztó, ellentmondó, meglepő,','nem meggyőző adatok…'],'evidence','#d5f1c7');
+  // A fehér sugárirányú kapcsolatok az eredeti ábra négy kimenetéhez vezetnek.
+  const rays=[
+    'M350 439 L188 480','M350 439 L512 480',
+    'M350 439 L214 580','M350 439 L486 580'
+  ];
+  rays.forEach(d=>create('path',{d,stroke:'#f3fff0','stroke-width':9,'stroke-linecap':'round'}));
+  item(52,475,258,72,['Alátámasztják','a hipotézist'],'evidence','#b6e49f');
+  item(390,475,258,72,['A feltételezések','felülvizsgálatára','késztetnek'],'models','#b6e49f');
+  item(85,573,250,72,['Megcáfolják','a hipotézist'],'evidence','#b6e49f');
+  item(365,573,250,72,['Új, módosított','hipotézisekre','ösztönöznek'],'models','#b6e49f');
+ } else if(i===0){
+  // A felhasználó magyar ábrája: öt belső tevékenység sugaras hálózata,
+  // két oldalról három-három külső kutatást ösztönző tényezővel.
+  text(svg,450,145,['FELFEDEZÉS ÉS KUTATÁS'],'zone-label').setAttribute('font-size',25);
+  // A belső világos kapcsolatok az eredeti ábrán: felső két elem → közép,
+  // közép ↔ alsó két elem; a felső és alsó elemek függőleges összeköttetése.
+  const pinkLinks=[
+    'M355 295 L420 360','M545 295 L480 360',
+    'M355 480 L420 412','M545 480 L480 412',
+    'M355 295 V480','M545 295 V480'
+  ];
+  pinkLinks.forEach(d=>link(d,'#fff6f7',19));
+  item(300,235,145,61,['Megfigyelések','végzése'],'observation','#fff0f0');
+  item(455,235,145,61,['Kérdések','megfogalmazása'],'questions','#fff0f0');
+  item(367,349,166,76,['Adatok és ötletek','megosztása'],'sharing','#fff0f0');
+  item(300,478,145,63,['Inspiráció','gyűjtése'],'inspiration','#fff0f0');
+  item(455,478,145,63,['A szakirodalom','megismerése'],'literature','#fff0f0');
+  // A két nagy, befelé mutató nyíl a körön kívül, a forrásábrának megfelelően.
+  create('path',{d:'M28 292 L188 292 L188 270 L280 327 L188 384 L188 362 L28 362 Z',fill:'#c8c6b9',stroke:'#b5b3a6','stroke-width':2});
+  create('path',{d:'M872 292 L712 292 L712 270 L620 327 L712 384 L712 362 L872 362 Z',fill:'#c8c6b9',stroke:'#b5b3a6','stroke-width':2});
+  const outside=(x,y,lines)=>{const t=text(svg,x,y,lines,'');t.setAttribute('font-size','15');t.setAttribute('text-anchor','middle');t.setAttribute('fill','#303030');return t};
+  outside(145,229,['Új technológiák']);outside(145,249,['Gyakorlati problémák']);outside(145,269,['Kíváncsiság']);
+  outside(755,229,['Személyes motiváció']);outside(755,249,['Szerencse']);outside(755,269,['Meglepő megfigyelés']);
+  // A külső tényezők is megnyithatók, de a nyilak nem fedik a kör szövegét.
+  const ext=(x,y,w,id,label)=>{const g=create('g',{role:'button',tabindex:0,class:'external-topic','aria-label':label});create('rect',{x,y,width:w,height:23,rx:5,fill:'transparent'},g);const run=()=>topic(id);g.addEventListener('click',run);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run()}})};
+  ext(58,211,175,'technology','Új technológiák');ext(58,231,175,'problems','Gyakorlati problémák');ext(58,251,175,'curiosity','Kíváncsiság');
+  ext(665,211,185,'motivation','Személyes motiváció');ext(665,231,185,'luck','Szerencse');ext(665,251,185,'surprise','Meglepő megfigyelés');
+ } else if(i===2){
+  text(svg,350,112,['KÖZÖSSÉGI ELEMZÉS','ÉS VISSZAJELZÉS'],'zone-label').setAttribute('font-size',23);
+  // Felső négy elem: a középpontból ágazó világos, átlós kapcsolatok.
+  ['M350 278 L207 214','M350 278 L493 214','M350 278 L207 353','M350 278 L493 353'].forEach(d=>link(d,'#fff8ff',19));
+  item(77,170,260,77,['Visszajelzés és','szakmai lektorálás'],'review','#dda8e7');
+  item(363,170,260,77,['Megismétlés'],'replication','#dda8e7');
+  item(77,322,260,77,['Megvitatás a','kollégákkal'],'discussion','#dda8e7');
+  item(363,322,260,77,['Publikáció'],'publication','#dda8e7');
+  // A forrásábrán a választóvonal alatt két elem, közöttük kétirányú nyíl.
+  create('path',{d:'M27 433 H673',stroke:'#87528e','stroke-width':4});
+  create('path',{d:'M350 411 V471 M339 423 L350 410 L361 423 M339 459 L350 472 L361 459',stroke:'#6f3c7b','stroke-width':4,fill:'none','stroke-linecap':'round'});
+  link('M350 530 L228 580 M350 530 L472 580','#fff8ff',15);
+  item(75,573,265,85,['Új kérdések, ötletek','felvetése'],'newquestions','#f2d9f5');
+  item(360,573,265,85,['Elméleti ismeretek','építése'],'theory','#f2d9f5');
+ } else {
+  text(svg,350,116,['ELŐNYÖK ÉS EREDMÉNYEK'],'zone-label').setAttribute('font-size',24);
+  // A magyar ábrán hat eredmény közös, középponti, sugaras hálózatban áll.
+  ['M350 354 L225 245','M350 354 L475 245','M350 354 L175 356',
+   'M350 354 L525 356','M350 354 L225 475','M350 354 L475 475'].forEach(d=>link(d,'#f6ffff',19));
+  item(78,198,263,78,['Technológia','fejlesztése'],'development','#c3eef0');
+  item(359,198,263,78,['Társadalmi problémák','megoldása'],'social','#c3eef0');
+  item(52,317,244,78,['Tudásépítés'],'knowledge','#c3eef0');
+  item(404,317,244,78,['A politikai döntéshozók','informálása'],'policy','#c3eef0');
+  item(78,439,263,78,['A kíváncsiság','kielégítése'],'satisfaction','#c3eef0');
+  item(359,439,263,78,['Mindennapi problémák','megoldása'],'everyday','#c3eef0');
+
+ }
+ panel.appendChild(svg);
+ const hint=node('p','zone-circle-note','A belső mezőkre kattintva rövid magyarázat vagy Galilei-példa nyílik meg. A nagyobb egységekhez később részletesebb feladatok kapcsolódnak.');panel.appendChild(hint);
+ d.appendChild(panel);page('zone');
+}
+document.querySelectorAll('.bc-node').forEach(n=>{n.addEventListener('click',()=>showCircle(Number(n.dataset.zone)));n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showCircle(Number(n.dataset.zone))}})});
+const grid=$('story-grid');stories.forEach(s=>{const e=node('article','story');e.appendChild(node('span','flag',s.ready?'Kipróbálható':'Hamarosan'));e.appendChild(node('strong','',s.title));e.appendChild(node('p','',s.desc));const b=node('button','action',s.ready?'Feladat megnyitása →':'Részletek →');b.addEventListener('click',()=>story(s.id));e.appendChild(b);grid.appendChild(e)});
+document.querySelectorAll('#workshop [data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
+$('zone-back').addEventListener('click',()=>page('methods'));$('detail-back').addEventListener('click',()=>page(lastPage));$('jupiter-back').addEventListener('click',()=>page('stories'));page('home');
+})();
+</script><script>
+(function(){
+'use strict';
+const root=document.getElementById('gj-app');if(!root)return;
+const $=id=>root.querySelector('#'+id);
+const steps=[
+ {title:'Első pillantás',label:'1. lépés · Megfigyelés',intro:'1610. január 7-én Galilei a Jupiter közelében három fényes pontot látott. Eleinte állócsillagoknak vélte őket.',question:'Mit tennél, hogy eldöntsd: a fényes pontok valóban távoli állócsillagok?',extra:['Mit érdemes lerajzolni egy megfigyelési naplóba?'],answer:'Galilei a következő éjszakákon ismét megvizsgálta a Jupitert. A rajzok összevetéséből kiderült, hogy a fényes pontok helyzete változik.',tags:['Új technológia','Megfigyelés']},
+ {title:'Újabb megfigyelések',label:'2. lépés · Új kérdések',intro:'Nézd meg egymás mellett mind a négy korai megfigyelés ábráját! A fényes pontok száma és Jupiterhez viszonyított helyzete is változik.',question:'Milyen magyarázatokat tudsz adni a fényes pontok helyzetváltozására?',extra:['Hogyan tudnád megvizsgálni a magyarázatok helyességét?','Milyen eszközökre és feljegyzésekre lenne szükséged?'],answer:'A lehetséges magyarázatokat ismételt, dátummal és időponttal ellátott távcsöves megfigyelésekkel lehet ellenőrizni. A helyzetrajzok megmutatják, hogy a pontok a Jupiter közelében maradnak, miközben egymáshoz viszonyított helyzetük változik.',tags:['Megfigyeléssorozat','Hipotézisek ellenőrzése']},
+ {title:'Egy új felismerés',label:'3. lépés · Következtetés',intro:'A több napon át tartó megfigyelésekből Galilei arra következtetett, hogy a fényes pontok nem közönséges állócsillagok, hanem a Jupiter körül keringenek.',question:'Miért erősebb ez a magyarázat, mint az első éjszaka alapján tett feltételezés?',extra:['Milyen megfigyeléseket magyaráz meg egyszerre a keringés feltételezése?'],answer:'A keringés értelmezni tudja, hogy a fényes pontok a Jupiter közelében maradnak, de hol az egyik, hol a másik oldalán jelennek meg. Galilei 1610. január közepére felismerte, hogy négy égitest kering a Jupiter körül.',tags:['Bizonyítékok','Következtetés']},
+ {title:'Visszatérő helyzetek?',label:'4. lépés · Periodicitás',intro:'Galilei nem állt meg négy megfigyelésnél: 1610. január 7. és március eleje között sokszor újra lerajzolta a Jupiter környezetét. A négy kezdeti ábra még nem elegendő a keringési idők meghatározásához.',question:'Ha hosszabb időn át figyelnéd a Jupiter holdjait, milyen ismétlődő mintázatot keresnél a rajzokon?',extra:['Miért utalna a visszatérő helyzetváltozás periodikus mozgásra?','Miért nem feltétlenül ismétlődik egyszerre mind a négy hold teljes elrendezése?'],answer:'Az egyes holdak Jupiterhez viszonyított látszólagos helyzete közel periodikusan változik, de mindegyiknek más a keringési ideje. Galilei már felismerte a különböző periódusú keringést, ám az 1610 márciusában megjelent Sidereus Nunciusban kifejezetten jelezte: a pontos keringési időket még nem tudta meghatározni. Az eredeti ábrákban visszatérnek hasonló elrendezések, de a négy holdat nehéz következetesen azonosítani pusztán ezek alapján.',tags:['Periodikus mozgás','További vizsgálatok']},
+ {title:'Mit bizonyít a felfedezés?',label:'5. lépés · Állítások vizsgálata',intro:'A Jupiter holdjainak felismerése fontos kihívást jelentett a korabeli világképek számára. De pontosan mire lehetett következtetni ebből?',question:'Igaz vagy hamis? Döntsd el, mely állításokat támasztják alá a megfigyelések!',extra:[],answer:'A Jupiter holdjai ellenpéldát jelentenek arra az állításra, hogy minden égitest a Föld körül kering. Ez fontos érv volt a korabeli világképvitában, de önmagában nem bizonyította a Föld Nap körüli mozgását.',tags:['Új tudás','Tudományos érvelés']}
+];
+const statements=[
+ {text:'A Jupiter körül is keringenek égitestek.',truth:true,why:'A megfigyelések éppen ezt támasztották alá.'},
+ {text:'Minden égitest a Föld körül kering.',truth:false,why:'A Jupiter holdjai ellenpéldát szolgáltattak erre az általános állításra.'},
+ {text:'A Jupiter holdjainak felfedezése önmagában bizonyította, hogy a Föld a Nap körül kering.',truth:false,why:'A Jupiter holdjainak létezése nem határozza meg közvetlenül a Föld pályáját.'},
+ {text:'Egyetlen felfedezés fontos érv lehet anélkül, hogy egy teljes világmodellt bizonyítana.',truth:true,why:'A tudományos állítások bizonyító erejét mindig a pontos tartalmukhoz kell mérni.'}
+];
+
+const observations=[
+ {date:'1610. január 7.',left:[35],right:[24,69]},
+ {date:'1610. január 8.',left:[18,49,78],right:[]},
+ {date:'1610. január 10.',left:[],right:[27,66]},
+ {date:'1610. január 11.',left:[],right:[52,72]}
+];
+function makeSketches(){const holder=$('gj-obgrid');holder.replaceChildren();const ns='http://www.w3.org/2000/svg';
+ observations.forEach(o=>{const card=document.createElement('div');card.className='obcard';const date=document.createElement('div');date.className='date';date.textContent=o.date;card.appendChild(date);
+ const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 220 94');svg.setAttribute('role','img');svg.setAttribute('aria-label',o.date+' – Jupiter és a megfigyelt fényes pontok');
+ const line=document.createElementNS(ns,'line');line.setAttribute('x1','9');line.setAttribute('x2','211');line.setAttribute('y1','47');line.setAttribute('y2','47');line.setAttribute('stroke','#d8cbb6');line.setAttribute('stroke-dasharray','3 6');svg.appendChild(line);
+ const j=document.createElementNS(ns,'circle');j.setAttribute('cx','110');j.setAttribute('cy','47');j.setAttribute('r','13');j.setAttribute('fill','#c69b65');j.setAttribute('stroke','#815b3e');j.setAttribute('stroke-width','2');svg.appendChild(j);
+ const mark=(x)=>{const c=document.createElementNS(ns,'circle');c.setAttribute('cx',x);c.setAttribute('cy','47');c.setAttribute('r','3.7');c.setAttribute('fill','#39313a');svg.appendChild(c)};
+ o.left.forEach(d=>mark(110-d));o.right.forEach(d=>mark(110+d));card.appendChild(svg);holder.appendChild(card)});
+}
+makeSketches();
+let index=0;const revealed=Array(steps.length).fill(false);const choices=Array(statements.length).fill(null);
+function renderTF(){const holder=$('gj-truefalse');holder.replaceChildren();if(index!==4)return;
+ const grid=document.createElement('div');grid.className='tf';
+ statements.forEach((st,i)=>{const row=document.createElement('div');row.className='tfrow';const p=document.createElement('p');p.textContent=(i+1)+'. '+st.text;row.appendChild(p);
+ const buttons=document.createElement('div');buttons.className='choices';
+ [true,false].forEach(val=>{const b=document.createElement('button');b.type='button';b.textContent=val?'Igaz':'Hamis';if(choices[i]===val)b.className='selected';b.setAttribute('aria-pressed',String(choices[i]===val));b.addEventListener('click',()=>{choices[i]=val;renderTF()});buttons.appendChild(b)});
+ row.appendChild(buttons);if(choices[i]!==null){const f=document.createElement('div');f.className='feedback';f.textContent=(choices[i]===st.truth?'✓ Helyes. ':'↻ Gondold újra! ')+st.why;row.appendChild(f)}grid.appendChild(row)});
+ holder.appendChild(grid);
+}
+function render(){const s=steps[index];$('gj-progress').replaceChildren();steps.forEach((_,i)=>{const e=document.createElement('span');if(i<=index)e.className='active';$('gj-progress').appendChild(e)});
+ $('gj-label').textContent=s.label;$('gj-title').textContent=s.title;$('gj-intro').textContent=s.intro;$('gj-question').textContent=s.question;
+ const extra=$('gj-extra');extra.replaceChildren();if(s.extra.length){const ul=document.createElement('ul');ul.className='subq';s.extra.forEach(q=>{const li=document.createElement('li');li.textContent=q;ul.appendChild(li)});extra.appendChild(ul)}
+ renderTF();$('gj-answer').textContent=s.answer;$('gj-answer').classList.toggle('hidden',!revealed[index]);$('gj-curiosity').classList.toggle('hidden',!(index===3&&revealed[index]));$('gj-reveal').textContent=revealed[index]?'Magyarázat elrejtése':'Történeti magyarázat megjelenítése';$('gj-reveal').setAttribute('aria-expanded',String(revealed[index]));$('gj-tags').replaceChildren();s.tags.forEach(tag=>{const e=document.createElement('span');e.className='tag';e.textContent=tag;$('gj-tags').appendChild(e)});$('gj-prev').disabled=index===0;$('gj-next').textContent=index===steps.length-1?'Újrakezdés ↻':'Tovább →';$('gj-count').textContent=(index+1)+' / '+steps.length;}
+$('gj-prev').addEventListener('click',()=>{if(index>0){index--;render();}});
+$('gj-next').addEventListener('click',()=>{if(index===steps.length-1){revealed.fill(false);choices.fill(null);index=0;}else index++;render();});
+$('gj-reveal').addEventListener('click',()=>{revealed[index]=!revealed[index];render();});
+render();
+})();
+</script></body></html>
